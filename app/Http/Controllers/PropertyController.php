@@ -14,6 +14,27 @@ class PropertyController extends Controller
 
     public function index(Request $request)
     {
+        $user = auth()->user();
+
+        // Paginate properties to improve performance with large datasets
+        $properties = Property::query()->where('user_id', $user->id)->with('images', 'videos')->get();
+
+        // Check if properties exist
+        if ($properties->isEmpty()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No properties found'
+            ], 404);
+        }
+
+        // Return paginated properties with metadata (current page, total, etc.)
+        return response()->json([
+            'status' => true,
+            'properties' => $properties
+        ], 200);
+    }
+    public function properties(Request $request)
+    {
         // Optionally, get pagination size from request or use default
 
         // Paginate properties to improve performance with large datasets

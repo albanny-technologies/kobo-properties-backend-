@@ -27,7 +27,7 @@ Route::middleware('auth:sanctum')->apiResource('properties', PropertyController:
 Route::middleware('auth:sanctum')->post('compare', [PropertyController::class, 'compare']);
 Route::middleware('auth:sanctum')->apiResource('bookings', BookingController::class);
 Route::middleware('auth:sanctum')->apiResource('wishlist', WishlistController::class);
-Route::middleware('auth:sanctum')->get('agent/properties', [AgentController::class, 'properties']);
+Route::middleware('auth:sanctum')->get('basic/properties', [PropertyController::class, 'properties']);
 
 
 
