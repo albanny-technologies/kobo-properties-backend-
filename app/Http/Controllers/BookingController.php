@@ -10,7 +10,7 @@ class BookingController extends Controller
 {
     public function index()
     {
-        $bookings = Booking::where('user_id', auth()->id())->get();
+        $bookings = Booking::where('user_id', auth()->id())->with('property')->get();
         return response()->json($bookings);
     }
 
