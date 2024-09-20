@@ -19,7 +19,7 @@ class PropertyController extends Controller
         $user = auth()->user();
 
         // Paginate properties to improve performance with large datasets
-        $properties = Property::query()->where('user_id', $user->id)->with('images', 'videos')->get();
+        $properties = Property::query()->where('user_id', $user->id)->with('images', 'videos', 'user')->get();
 
         // Return paginated properties with metadata (current page, total, etc.)
         return response()->json([
@@ -32,7 +32,7 @@ class PropertyController extends Controller
         // Optionally, get pagination size from request or use default
 
         // Paginate properties to improve performance with large datasets
-        $properties = Property::with('images', 'videos')->get();
+        $properties = Property::with('images', 'videos', 'user')->get();
 
         // Return paginated properties with metadata (current page, total, etc.)
         return response()->json([
@@ -56,6 +56,7 @@ class PropertyController extends Controller
             'title' => 'required|string|max:255',
             'location' => 'required|string|max:255',
             'state' => 'required|string|max:255',
+            'amount' => 'required|numeric',
             'city' => 'required|string|max:255',
             'additional_charge' => 'nullable|numeric',
             'landmarks' => 'nullable|array',
@@ -215,7 +216,7 @@ class PropertyController extends Controller
     {
         return response()->json([
             'status' => true,
-            'property' => $property->load('images', 'videos')
+            'property' => $property->load('images', 'videos','user')
         ]);
     }
 
