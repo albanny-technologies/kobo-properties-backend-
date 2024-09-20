@@ -30,6 +30,7 @@ Route::middleware('auth:sanctum')->apiResource('bookings', BookingController::cl
 Route::middleware('auth:sanctum')->apiResource('wishlist', WishlistController::class);
 Route::get('basic/properties', [PropertyController::class, 'properties']);
 Route::post('search', [PropertyController::class, 'search']);
+Route::get('agents', [AgentController::class, 'agents']);
 
 
 

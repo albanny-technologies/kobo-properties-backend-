@@ -248,7 +248,7 @@ class PropertyController extends Controller
         $minPrice = $request->input('min_price');
         $maxPrice = $request->input('max_price');
         // Initialize the query builder
-        $query = Property::query()->where('status', PropertyStatus::PENDING);
+        $query = Property::query()->where('status', PropertyStatus::PENDING)->with('images', 'videos', 'user');
 
         // Filter by search
         if ($request->has('search') && $request->search != '') {
