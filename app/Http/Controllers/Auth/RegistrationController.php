@@ -26,6 +26,7 @@ class RegistrationController extends Controller
             'firstname' => $validatedData['firstname'],
             'lastname' => $validatedData['lastname'],
             'email' => $validatedData['email'],
+            'type' => $validatedData['type'],
             'password' => Hash::make($validatedData['password']),
             'phone_no' => $validatedData['phone_no'] ?? null,
             'alt_phone_no' => $validatedData['alt_phone_no'] ?? null,

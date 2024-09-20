@@ -18,29 +18,40 @@ class UserController extends Controller
     }
 
     public function update(Request $request)
-    {
-        $user = $request->user();
+{
+    $user = $request->user();
 
-        $validatedData = $request->validate([
-            'firstname' => 'sometimes|string|max:255',
-            'lastname' => 'sometimes|string|max:255',
-            'phone_no' => 'nullable|string|max:20',
-            'alt_phone_no' => 'nullable|string|max:20',
-            'company_name' => 'nullable',
-            'address' => 'nullable',
-            'alt_phone_no' => 'nullable',
-            'cac_doc' => 'nullable',
-            'phone_no' => 'nullable',
-            'description' => 'nullable',
-        ]);
+    $validatedData = $request->validate([
+        'firstname' => 'sometimes|string|max:255',
+        'lastname' => 'sometimes|string|max:255',
+        'phone_no' => 'nullable|string|max:20',
+        'alt_phone_no' => 'nullable|string|max:20',
+        'company_name' => 'nullable',
+        'website' => 'nullable',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'address' => 'nullable',
+        'cac_doc' => 'nullable',
+        'description' => 'nullable',
+    ]);
 
-        $user->update($validatedData);
+    // Handle image upload
+    if ($request->hasFile('image')) {
+        // Store the image in the 'public/images' directory
+        $path = $request->file('image')->store('user/images', 'public');
 
-        return response()->json([
-            'status' => true,
-            'user' => $user,
-        ]);
+        // Update the user's profile with the new image path
+        $validatedData['image'] =  url('storage/' . $path);  // Save the full URL
     }
+
+    // Update user with the validated data
+    $user->update($validatedData);
+
+    return response()->json([
+        'status' => true,
+        'user' => $user,
+    ]);
+}
+
     public function changePassword(Request $request)
     {
         $user = $request->user();

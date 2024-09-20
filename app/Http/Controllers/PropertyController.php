@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\PropertyStatus;
+use App\Enums\UserType;
 use App\Models\Property;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
@@ -19,14 +21,6 @@ class PropertyController extends Controller
         // Paginate properties to improve performance with large datasets
         $properties = Property::query()->where('user_id', $user->id)->with('images', 'videos')->get();
 
-        // Check if properties exist
-        if ($properties->isEmpty()) {
-            return response()->json([
-                'status' => false,
-                'message' => 'No properties found'
-            ], 404);
-        }
-
         // Return paginated properties with metadata (current page, total, etc.)
         return response()->json([
             'status' => true,
@@ -40,14 +34,6 @@ class PropertyController extends Controller
         // Paginate properties to improve performance with large datasets
         $properties = Property::with('images', 'videos')->get();
 
-        // Check if properties exist
-        if ($properties->isEmpty()) {
-            return response()->json([
-                'status' => false,
-                'message' => 'No properties found'
-            ], 404);
-        }
-
         // Return paginated properties with metadata (current page, total, etc.)
         return response()->json([
             'status' => true,
@@ -58,6 +44,13 @@ class PropertyController extends Controller
 
     public function store(Request $request)
     {
+        $user = auth()->user();
+        if ($user->type != UserType::Agent) {
+            return response()->json([
+                'status' => false,
+                'message' => 'You have to be an agent to upload property'
+            ]);
+        }
         // Validate incoming data
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
@@ -82,6 +75,8 @@ class PropertyController extends Controller
         $property = new Property();
         $property->title = $validatedData['title'];
         $property->location = $validatedData['location'];
+        $property->amount = $validatedData['amount'];
+        $property->desc = $validatedData['desc'];
         $property->state = $validatedData['state'];
         $property->city = $validatedData['city'];
         $property->additional_charge = $validatedData['additional_charge'] ?? null;
@@ -123,7 +118,7 @@ class PropertyController extends Controller
         // Return a structured response
         return response()->json([
             'message' => 'Property created successfully.',
-            'data' => $property->load('images', 'videos'),
+            'data' => $property->load('images', 'videos', 'user'),
         ], 201);
     }
 
@@ -134,8 +129,10 @@ class PropertyController extends Controller
             'title' => 'required|string|max:255',
             'location' => 'required|string|max:255',
             'state' => 'required|string|max:255',
+            'desc' => 'nullable|string|max:255',
             'city' => 'required|string|max:255',
             'additional_charge' => 'nullable|numeric',
+            'amount' => 'nullable|numeric',
             'landmarks' => 'nullable|array',
             'landmarks.*' => 'string|max:255', // Ensure each landmark is a string
             'amenities' => 'nullable|array',
@@ -152,6 +149,8 @@ class PropertyController extends Controller
         // Update property details with validated data
         $property->title = $validatedData['title'];
         $property->location = $validatedData['location'];
+        $property->amount = $validatedData['amount'];
+        $property->desc = $validatedData['desc'];
         $property->state = $validatedData['state'];
         $property->city = $validatedData['city'];
         $property->additional_charge = $validatedData['additional_charge'] ?? $property->additional_charge;
@@ -207,7 +206,7 @@ class PropertyController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Property updated successfully.',
-            'data' => $property->load('images', 'videos'), // Include related images and videos in response
+            'data' => $property->load('images', 'videos', 'user'), // Include related images and videos in response
         ], 200);
     }
 
@@ -241,6 +240,40 @@ class PropertyController extends Controller
         return response()->json([
             'status' => true,
             'properties' => $properties
+        ]);
+    }
+    public function search(Request $request)
+    {
+        $minPrice = $request->input('min_price');
+        $maxPrice = $request->input('max_price');
+        // Initialize the query builder
+        $query = Property::query()->where('status', PropertyStatus::APPROVED);
+
+        // Filter by location
+        if ($request->has('location') && $request->location != '') {
+            $query->where('location', $request->location);
+        }
+        // Filter by size
+        if ($request->has('size') && $request->size != '') {
+            $query->where('size', $request->size);
+        }
+
+        if (!is_null($minPrice)) {
+            $query->where('amount', '>=', $minPrice);
+        }
+
+        // Apply the maximum price filter if provided
+        if (!is_null($maxPrice)) {
+            $query->where('amount', '<=', $maxPrice);
+        }
+
+        // Get the results
+        $products = $query->get();
+
+        // Return the results to the view
+        return response()->json([
+            'status' => true,
+            'data' => $products
         ]);
     }
 }
