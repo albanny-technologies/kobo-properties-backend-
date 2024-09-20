@@ -248,8 +248,12 @@ class PropertyController extends Controller
         $minPrice = $request->input('min_price');
         $maxPrice = $request->input('max_price');
         // Initialize the query builder
-        $query = Property::query()->where('status', PropertyStatus::APPROVED);
+        $query = Property::query()->where('status', PropertyStatus::PENDING);
 
+        // Filter by search
+        if ($request->has('search') && $request->search != '') {
+            $query->where('title','like', '%' . $request->search. '%');
+        }
         // Filter by location
         if ($request->has('location') && $request->location != '') {
             $query->where('location', $request->location);
