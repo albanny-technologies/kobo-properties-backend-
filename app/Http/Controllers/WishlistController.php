@@ -22,7 +22,7 @@ class WishlistController extends Controller
             'property_id' => 'required|exists:properties,id'
         ]);
         $propertyExist = Wishlist::where('id', $validateData['property_id'])->where('user_id', $user->id)->first();
-        if($propertyExist){
+        if ($propertyExist) {
             return response()->json([
                 'status' => false,
                 'message' => 'You\'ve added this property to your wishlist already'
@@ -38,5 +38,25 @@ class WishlistController extends Controller
             'message' => 'Property added to favourites',
             'wishlist' => $wishlist
         ]);
+    }
+    public function destroy($id)
+    {
+        $wishlist = Wishlist::find($id);
+
+        // Check if the property exists
+        if (!$wishlist) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Favourite already removed'
+            ], 404); // Return a 404 if the property does not exist
+        }
+
+        // Attempt to delete the property
+        $wishlist->delete();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Favourite removed successfully'
+        ], 200); // Return a 200 status code if successful
     }
 }

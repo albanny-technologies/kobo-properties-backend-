@@ -45,7 +45,7 @@ class PropertyController extends Controller
     public function store(Request $request)
     {
         $user = auth()->user();
-        if ($user->type != UserType::Agent) {
+        if ($user->type !== UserType::Agent->value) {
             return response()->json([
                 'status' => false,
                 'message' => 'You have to be an agent to upload property'
@@ -57,6 +57,7 @@ class PropertyController extends Controller
             'location' => 'required|string|max:255',
             'state' => 'required|string|max:255',
             'amount' => 'required|numeric',
+            'desc' => 'required|string|max:255',
             'city' => 'required|string|max:255',
             'additional_charge' => 'nullable|numeric',
             'landmarks' => 'nullable|array',
@@ -214,9 +215,11 @@ class PropertyController extends Controller
 
     public function show(Property $property)
     {
+        $similar = Property::query()->where('city', $property->city)->get();
         return response()->json([
             'status' => true,
-            'property' => $property->load('images', 'videos','user')
+            'property' => $property->load('images', 'videos','user'),
+            'similar' => $similar
         ]);
     }
 

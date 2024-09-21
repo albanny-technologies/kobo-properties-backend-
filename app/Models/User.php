@@ -50,4 +50,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Wishlist::class);
     }
+    public function properties()
+    {
+        return $this->hasMany(Property::class);
+    }
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'agent_id');
+    }
 }

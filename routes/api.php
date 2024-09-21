@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\BasicController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\PropertyController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WishlistController;
 use App\Models\Property;
@@ -30,7 +31,8 @@ Route::middleware('auth:sanctum')->apiResource('bookings', BookingController::cl
 Route::middleware('auth:sanctum')->apiResource('wishlist', WishlistController::class);
 Route::get('basic/properties', [PropertyController::class, 'properties']);
 Route::post('search', [PropertyController::class, 'search']);
-Route::get('agents', [AgentController::class, 'agents']);
+Route::apiResource('agents', AgentController::class);
+Route::middleware('auth:sanctum')->apiResource('review', ReviewController::class);
 
 
 

@@ -35,6 +35,13 @@ class BookingController extends Controller
             'booking' => $booking
         ], 201);
     }
+    public function show(Booking $booking)
+    {
+        return response()->json([
+            'status' => true,
+            'booking' => $booking
+        ]);
+    }
 
     // Implement show, update, destroy if necessary
 }
