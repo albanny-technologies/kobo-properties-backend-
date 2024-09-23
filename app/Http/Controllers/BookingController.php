@@ -120,7 +120,7 @@ class BookingController extends Controller
         // Retrieve the booking with the specified id and agent_id
         $booking = Booking::query()
             ->where('id', $id)  // Correctly match the booking by ID
-            ->where('agent_id', $user->id)  // Ensure the booking belongs to the authenticated agent
+            ->where('user_id', $user->id)  // Ensure the booking belongs to the authenticated agent
             ->first();
 
         if (!$booking) {
