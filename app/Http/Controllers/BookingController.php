@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\BookingStatus;
+use App\Enums\UserType;
 use App\Models\Booking;
 use App\Models\Property;
 use App\Notifications\BookingAccepted;
@@ -13,8 +14,12 @@ class BookingController extends Controller
 {
     public function index()
     {
-        $user = auth()->id();
-        $bookings = Booking::where('user_id', $user->id)->orWhere('agent_id', $user->id)->with('property', 'agent', 'user')->get();
+        $user = auth()->user();
+        if($user->type == UserType::User->value){
+            $bookings = Booking::where('user_id', $user->id)->with('property', 'agent')->get();
+        }else{
+            $bookings = Booking::where('agent_id', $user->id)->with('property', 'agent', 'user')->get();
+        }
         return response()->json($bookings);
     }
 
