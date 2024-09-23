@@ -34,7 +34,7 @@ class BookingController extends Controller
         $agent = $booking->property->user;
         $booking->agent_id = $agent->id;
         $booking->save();
-        $agent->notify(new BookingNotification($booking));
+        // $agent->notify(new BookingNotification($booking));
 
 
         return response()->json([
