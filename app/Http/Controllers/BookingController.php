@@ -132,7 +132,7 @@ class BookingController extends Controller
         $property = Property::query()->find($booking->property_id);
         if ($property->user->id == $user->id) {
             // Mark the booking as accepted (assuming you have a status field)
-            $booking->status = BookingStatus::REJECTED;  // Adjust field name as per your schema
+            $booking->status = BookingStatus::CANCELLED;  // Adjust field name as per your schema
             $booking->save();
 
             return response()->json([

@@ -45,7 +45,7 @@ class PropertyController extends Controller
     public function store(Request $request)
     {
         $user = auth()->user();
-        if ($user->type !== UserType::Agent->value) {
+        if ($user->type != UserType::Agent->value) {
             return response()->json([
                 'status' => false,
                 'message' => 'You have to be an agent to upload property'
