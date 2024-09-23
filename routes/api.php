@@ -28,6 +28,9 @@ Route::middleware('auth:sanctum')->put('/user', [UserController::class, 'update'
 Route::middleware('auth:sanctum')->apiResource('properties', PropertyController::class);
 Route::middleware('auth:sanctum')->post('compare', [PropertyController::class, 'compare']);
 Route::middleware('auth:sanctum')->apiResource('bookings', BookingController::class);
+Route::middleware('auth:sanctum')->get('bookings/accept/{id}', [BookingController::class, 'accept']);
+Route::middleware('auth:sanctum')->get('bookings/reject/{id}', [BookingController::class, 'reject']);
+Route::middleware('auth:sanctum')->get('bookings/cancelled/{id}', [BookingController::class, 'cancelled']);
 Route::middleware('auth:sanctum')->apiResource('wishlist', WishlistController::class);
 Route::get('basic/properties', [PropertyController::class, 'properties']);
 Route::post('search', [PropertyController::class, 'search']);

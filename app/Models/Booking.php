@@ -14,4 +14,8 @@ class Booking extends Model
     {
         return $this->belongsTo(Property::class);
     }
+    public function agent()
+    {
+        return $this->belongsTo(User::class, 'agent_id');
+    }
 }
