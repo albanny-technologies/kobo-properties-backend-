@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\BookingStatus;
 use App\Models\Booking;
 use App\Models\Property;
+use App\Notifications\BookingAccepted;
 use App\Notifications\BookingNotification;
 use Illuminate\Http\Request;
 
@@ -67,6 +68,9 @@ class BookingController extends Controller
         // Mark the booking as accepted (assuming you have a status field)
         $booking->status = BookingStatus::ACCEPTED;  // Adjust field name as per your schema
         $booking->save();
+
+        $user->notify(new BookingAccepted($booking));
+
 
         return response()->json([
             'status' => true,

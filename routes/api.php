@@ -1,12 +1,14 @@
 <?php
 
 use App\Http\Controllers\AgentController;
+use App\Http\Controllers\Api\NotificationController as ApiNotificationController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\BasicController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserController;
@@ -36,6 +38,18 @@ Route::get('basic/properties', [PropertyController::class, 'properties']);
 Route::post('search', [PropertyController::class, 'search']);
 Route::apiResource('agents', AgentController::class);
 Route::middleware('auth:sanctum')->apiResource('review', ReviewController::class);
+
+Route::middleware('auth:api')->group(function() {
+    // Get all notifications
+    Route::get('/notifications', [ApiNotificationController::class, 'index']);
+
+    // Mark a notification as read
+    Route::post('/notifications/{id}/read', [ApiNotificationController::class, 'markAsRead']);
+
+    // Mark all notifications as read
+    Route::post('/notifications/read-all', [ApiNotificationController::class, 'markAllAsRead']);
+});
+
 
 
 
