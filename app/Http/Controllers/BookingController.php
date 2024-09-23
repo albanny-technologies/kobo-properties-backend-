@@ -13,7 +13,7 @@ class BookingController extends Controller
 {
     public function index()
     {
-        $bookings = Booking::where('user_id', auth()->id())->with('property', 'agent')->get();
+        $bookings = Booking::where('user_id', auth()->id())->with('property', 'agent', 'user')->get();
         return response()->json($bookings);
     }
 
@@ -46,7 +46,7 @@ class BookingController extends Controller
     {
         return response()->json([
             'status' => true,
-            'booking' => $booking->load('property', 'agent')
+            'booking' => $booking->load('property', 'agent', 'user')
         ]);
     }
     public function accept($id)
@@ -75,7 +75,7 @@ class BookingController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Booking accepted successfully',
-            'booking' => $booking->load('property', 'agent')
+            'booking' => $booking->load('property', 'agent', 'user')
         ]);
     }
 
