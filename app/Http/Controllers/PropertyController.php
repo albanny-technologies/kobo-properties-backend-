@@ -263,7 +263,7 @@ class PropertyController extends Controller
         }
         // Filter by size
         if ($request->has('size') && $request->size != '') {
-            $query->where('size', $request->size);
+            $query->where('size','like', '%' . $request->size. '%');
         }
 
         if (!is_null($minPrice)) {
