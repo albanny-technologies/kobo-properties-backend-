@@ -27,7 +27,7 @@ Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLink
 Route::post('/reset-password', [ResetPasswordController::class, 'reset']);
 Route::middleware('auth:sanctum')->get('/user', [UserController::class, 'show']);
 Route::middleware('auth:sanctum')->put('/user', [UserController::class, 'update']);
-Route::middleware('auth:sanctum')->apiResource('properties', PropertyController::class);
+Route::apiResource('properties', PropertyController::class);
 Route::middleware('auth:sanctum')->post('compare', [PropertyController::class, 'compare']);
 Route::middleware('auth:sanctum')->apiResource('bookings', BookingController::class);
 Route::middleware('auth:sanctum')->get('bookings/accept/{id}', [BookingController::class, 'accept']);

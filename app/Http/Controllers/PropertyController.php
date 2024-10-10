@@ -6,13 +6,23 @@ use App\Enums\PropertyStatus;
 use App\Enums\UserType;
 use App\Models\Property;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Routing\Controller as BaseController; // Ensure this is included
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-
-class PropertyController extends Controller
+class PropertyController extends BaseController // Ensure it extends BaseController
 {
     use AuthorizesRequests;
+
+    public function __construct()
+    {
+        // Middleware only applied to these methods
+        $this->middleware('auth:sanctum')->only([
+            'update', // Add more methods if needed
+            'store',
+            'index'
+        ]);
+    }
 
     public function index(Request $request)
     {
@@ -219,7 +229,7 @@ class PropertyController extends Controller
         $similar = Property::query()->where('city', $property->city)->get();
         return response()->json([
             'status' => true,
-            'property' => $property->load('images', 'videos','user'),
+            'property' => $property->load('images', 'videos', 'user'),
             'similar' => $similar
         ]);
     }
@@ -256,7 +266,7 @@ class PropertyController extends Controller
 
         // Filter by search
         if ($request->has('search') && $request->search != '') {
-            $query->where('title','like', '%' . $request->search. '%');
+            $query->where('title', 'like', '%' . $request->search . '%');
         }
         // Filter by location
         if ($request->has('location') && $request->location != '') {
@@ -264,7 +274,7 @@ class PropertyController extends Controller
         }
         // Filter by size
         if ($request->has('size') && $request->size != '') {
-            $query->where('size','like', '%' . $request->size. '%');
+            $query->where('size', 'like', '%' . $request->size . '%');
         }
 
         if (!is_null($minPrice)) {

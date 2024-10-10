@@ -18,7 +18,9 @@ class AgentController extends Controller
     }
     public function show($id)
     {
-        $agent = User::query()->where('type', UserType::Agent)->where('id', $id)->first();
+        $agent = User::query()->where('type', UserType::Agent)->where('id', $id)->with(['reviews' => function($q){
+            $q->with('user');
+        }])->first();
 
         if(!$agent)
         {
@@ -29,7 +31,7 @@ class AgentController extends Controller
         }
         return response()->json([
             'status' => true,
-            'agent' => $agent->load('properties', 'reviews')
+            'agent' => $agent->load('properties')
         ]);
     }
 }
