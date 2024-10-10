@@ -42,7 +42,7 @@ class PropertyController extends BaseController // Ensure it extends BaseControl
         // Optionally, get pagination size from request or use default
 
         // Paginate properties to improve performance with large datasets
-        $properties = Property::with('images', 'videos', 'user')->get();
+        $properties = Property::with('images', 'videos', 'user')->orderBy('id', 'desc')->get();
 
         // Return paginated properties with metadata (current page, total, etc.)
         return response()->json([
