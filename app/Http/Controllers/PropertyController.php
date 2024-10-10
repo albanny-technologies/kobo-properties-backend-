@@ -135,6 +135,7 @@ class PropertyController extends Controller
             'city' => 'required|string|max:255',
             'additional_charge' => 'nullable|numeric',
             'amount' => 'nullable|numeric',
+            'available_time' => 'nullable',
             'landmarks' => 'nullable|array',
             'landmarks.*' => 'string|max:255', // Ensure each landmark is a string
             'amenities' => 'nullable|array',

@@ -38,6 +38,7 @@ Route::get('basic/properties', [PropertyController::class, 'properties']);
 Route::post('search', [PropertyController::class, 'search']);
 Route::apiResource('agents', AgentController::class);
 Route::middleware('auth:sanctum')->apiResource('review', ReviewController::class);
+Route::get('generals', [BasicController::class, 'index']);
 
 Route::middleware('auth:api')->group(function() {
     // Get all notifications

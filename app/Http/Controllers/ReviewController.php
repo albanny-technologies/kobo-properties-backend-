@@ -14,7 +14,7 @@ class ReviewController extends Controller
         $review = Review::where('agent_id', $user->id)->get();
         return response()->json([
             'status' => true,
-            'reviews' => $review
+            'reviews' => $review->load('user')
         ]);
     }
     public function store(Request $request)
