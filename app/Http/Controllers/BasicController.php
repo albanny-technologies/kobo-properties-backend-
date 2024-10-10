@@ -11,7 +11,7 @@ class BasicController extends Controller
         return response()->json([
             'status' => true,
             'site_info' => [
-                'phone_no' => 2385058658999,
+                'phone_no' => 2348062765353,
                 'email' => 'info@koboproperties.com',
             ],
             'counter_no' => [
