@@ -20,7 +20,8 @@ class PropertyController extends BaseController // Ensure it extends BaseControl
         $this->middleware('auth:sanctum')->only([
             'update', // Add more methods if needed
             'store',
-            'index'
+            'index',
+            'destroy'
         ]);
     }
 
@@ -29,7 +30,7 @@ class PropertyController extends BaseController // Ensure it extends BaseControl
         $user = auth()->user();
 
         // Paginate properties to improve performance with large datasets
-        $properties = Property::query()->where('user_id', $user->id)->with('images', 'videos', 'user')->get();
+        $properties = Property::query()->where('user_id', $user->id)->with('images', 'videos', 'user')->orderBy('id', 'desc')->get();
 
         // Return paginated properties with metadata (current page, total, etc.)
         return response()->json([
@@ -164,6 +165,7 @@ class PropertyController extends BaseController // Ensure it extends BaseControl
         $property->location = $validatedData['location'];
         $property->amount = $validatedData['amount'];
         $property->desc = $validatedData['desc'];
+        $property->available_time = $validatedData['available_time'];
         $property->state = $validatedData['state'];
         $property->city = $validatedData['city'];
         $property->additional_charge = $validatedData['additional_charge'] ?? $property->additional_charge;
