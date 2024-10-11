@@ -148,7 +148,7 @@ class PropertyController extends BaseController // Ensure it extends BaseControl
             'amount' => 'nullable|numeric',
             'available_time' => 'nullable',
             'landmarks' => 'nullable|array',
-            'landmarks.*' => 'string|max:255', // Ensure each landmark is a string
+            'landmarks.*' => 'array|max:255', // Ensure each landmark is a string
             'amenities' => 'nullable|array',
             'amenities.*' => 'string|max:255', // Ensure each amenity is a string
             'size' => 'nullable|string|max:255',
