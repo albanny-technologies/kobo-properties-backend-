@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\SubPayment;
 use Illuminate\Http\Request;
+use Laravelcm\Subscriptions\Models\Plan;
 
 class BasicController extends Controller
 {
     public function index()
     {
+        $plans = Plan::with('features')->get();
         return response()->json([
             'status' => true,
             'site_info' => [
@@ -23,8 +26,29 @@ class BasicController extends Controller
                 'account_name' => 'John Doe',
                 'account_no' => 000000000000,
                 'bank_name' => 'First Bank'
-            ]
+            ],
+            'plans' => $plans
 
+        ]);
+    }
+    public function subPayment(Request $request)
+    {
+        $user = auth()->user();
+        $validateData = $request->validate([
+            'proof' => 'required|image|mimes:jpeg,png,jpg|max:4000',
+        ]);
+        $subPayment = new SubPayment();
+        // Handle main image upload
+        if ($request->hasFile('proof')) {
+            $path = $request->file('proof')->store('payment_proof/images', 'public');
+            $subPayment->proof = url('storage/' . $path);  // Save the full URL
+        }
+        $subPayment->user_id = $user->id;
+        $subPayment->save();
+        return response()->json([
+            'status' => true,
+            'message' => 'Request sent successfully',
+            'data' => $subPayment
         ]);
     }
 }

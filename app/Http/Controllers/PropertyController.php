@@ -40,6 +40,7 @@ class PropertyController extends BaseController // Ensure it extends BaseControl
     }
     public function properties(Request $request)
     {
+        
         // Optionally, get pagination size from request or use default
 
         // Paginate properties to improve performance with large datasets

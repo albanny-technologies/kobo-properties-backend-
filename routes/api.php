@@ -27,6 +27,7 @@ Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLink
 Route::post('/reset-password', [ResetPasswordController::class, 'reset']);
 Route::middleware('auth:sanctum')->get('/user', [UserController::class, 'show']);
 Route::middleware('auth:sanctum')->put('/user', [UserController::class, 'update']);
+Route::middleware('auth:sanctum')->get('subscription', [UserController::class, 'subscription']);
 Route::apiResource('properties', PropertyController::class);
 Route::middleware('auth:sanctum')->post('compare', [PropertyController::class, 'compare']);
 Route::middleware('auth:sanctum')->apiResource('bookings', BookingController::class);
@@ -39,6 +40,7 @@ Route::post('search', [PropertyController::class, 'search']);
 Route::apiResource('agents', AgentController::class);
 Route::middleware('auth:sanctum')->apiResource('review', ReviewController::class);
 Route::get('generals', [BasicController::class, 'index']);
+Route::middleware('auth:sanctum')->post('sub-payment', [BasicController::class, 'subPayment']);
 
 Route::middleware('auth:api')->group(function() {
     // Get all notifications

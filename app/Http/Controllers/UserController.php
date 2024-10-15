@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
+use Laravelcm\Subscriptions\Models\Subscription;
 
 class UserController extends Controller
 {
@@ -81,5 +82,23 @@ class UserController extends Controller
             'status'=>true,
             'message'=> $notify
         ]);
+    }
+
+    public function subscription(){
+        $user = auth()->user();
+        $subscription = Subscription::where('subscriber_id', $user->id)->first();
+        if($subscription){
+            return response()->json([
+                'status' => true,
+                'message' => 'You\'re subscribed to the '.$subscription->name.' plan.',
+                'subscription' => $subscription,
+
+            ]);
+        }else{
+            return response()->json([
+                'status' => false,
+                'You\'re not subscribed to any plans.',
+            ], 400);
+        }
     }
 }
