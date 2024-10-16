@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Notifications\EmailVerification;
+use Illuminate\Support\Str;
 
 class VerificationController extends Controller
 {
@@ -41,13 +42,13 @@ class VerificationController extends Controller
         $validatedData = $request->validate([
             'email' => 'email|required',
         ]);
-        $user = auth()->user();
-        if($user->verification_code){
-            response()->json([
-                'status' => false,
-                'message' => 'Verification code already accepted or not sent',
-            ]);
-        }
+        $user = User::where('email', $validatedData['email'])->first();
+        
+        $verificationCode = Str::random(6);
+
+        $user->verification_code = $verificationCode;
+        $user->save();
+
         $user->notify(new EmailVerification($user));
         response()->json([
             'status' => true,
