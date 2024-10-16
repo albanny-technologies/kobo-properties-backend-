@@ -23,33 +23,43 @@ class PropertyResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('user_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('title')
-                    ->required()
-                    ->maxLength(193),
-                Forms\Components\TextInput::make('location')
-                    ->required()
-                    ->maxLength(193),
-                Forms\Components\TextInput::make('state')
-                    ->required()
-                    ->maxLength(193),
-                Forms\Components\TextInput::make('city')
-                    ->required()
-                    ->maxLength(193),
-                Forms\Components\FileUpload::make('image')
-                    ->image(),
-                Forms\Components\TextInput::make('video')
-                    ->maxLength(193),
-                Forms\Components\TextInput::make('additional_charge')
-                    ->numeric(),
-                Forms\Components\Textarea::make('landmarks')
-                    ->columnSpanFull(),
-                Forms\Components\Textarea::make('amenities')
-                    ->columnSpanFull(),
-                Forms\Components\TextInput::make('size')
-                    ->maxLength(193),
+                Forms\Components\Section::make('Information 1')
+                    ->schema([
+                        Forms\Components\Select::make('user')
+                            ->relationship(name: 'user', titleAttribute: 'firstname')
+                            ->required()
+                            ->preload()
+                            ->searchable(),
+                        Forms\Components\TextInput::make('title')
+                            ->required()
+                            ->maxLength(193),
+                        Forms\Components\TextInput::make('location')
+                            ->required()
+                            ->maxLength(193),
+                        Forms\Components\TextInput::make('state')
+                            ->required()
+                            ->maxLength(193),
+                        Forms\Components\TextInput::make('city')
+                            ->required()
+                            ->maxLength(193),
+
+                    ])->columns(2),
+                Forms\Components\Section::make('Information 2')
+                    ->schema([
+
+                        Forms\Components\FileUpload::make('image')
+                            ->image(),
+                        Forms\Components\TextInput::make('video')
+                            ->maxLength(193),
+                        Forms\Components\TextInput::make('additional_charge')
+                            ->numeric(),
+                        Forms\Components\Textarea::make('landmarks')
+                            ->nullable(),
+                        Forms\Components\Textarea::make('amenities')
+                            ->nullable(),
+                        Forms\Components\TextInput::make('Property size')
+                            ->maxLength(193),
+                    ])->columns(2)
             ]);
     }
 

@@ -6,7 +6,7 @@ use App\Enums\PropertyStatus;
 use App\Enums\UserType;
 use App\Models\Property;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Routing\Controller as BaseController; // Ensure this is included
+    use Illuminate\Routing\Controller as BaseController; // Ensure this is included
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -72,7 +72,7 @@ class PropertyController extends BaseController // Ensure it extends BaseControl
             'desc' => 'required|string|max:255',
             'city' => 'required|string|max:255',
             'additional_charge' => 'nullable',
-            'landmarks' => 'nullable|array',
+            'landmarks' => 'nullable|string',
             'landmarks.*' => 'string|max:255',
             'amenities' => 'nullable|array',
             'amenities.*' => 'string|max:255',

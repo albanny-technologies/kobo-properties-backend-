@@ -2,18 +2,18 @@
 
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\Api\NotificationController as ApiNotificationController;
+use App\Http\Controllers\Auth\EmailVerificationController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\BasicController;
 use App\Http\Controllers\BookingController;
-use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WishlistController;
-use App\Models\Property;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -52,6 +52,8 @@ Route::middleware('auth:api')->group(function() {
     // Mark all notifications as read
     Route::post('/notifications/read-all', [ApiNotificationController::class, 'markAllAsRead']);
 });
+
+Route::post('/verify-email', [VerificationController::class, 'verifyEmail']);
 
 
 
