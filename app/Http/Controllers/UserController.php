@@ -98,7 +98,8 @@ class UserController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'You\'re not subscribed to any plans.',
-            ], 400);
+                'subscription' => []
+            ], 203);
         }
     }
 }
