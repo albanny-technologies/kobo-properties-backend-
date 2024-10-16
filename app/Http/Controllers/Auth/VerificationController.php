@@ -42,6 +42,12 @@ class VerificationController extends Controller
             'email' => 'email|required',
         ]);
         $user = auth()->user();
+        if($user->verification_code){
+            response()->json([
+                'status' => false,
+                'message' => 'Verification code already accepted or not sent',
+            ]);
+        }
         $user->notify(new EmailVerification($user));
         response()->json([
             'status' => true,
