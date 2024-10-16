@@ -9,6 +9,9 @@ class Property extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
+    protected $casts = [
+        'user_id' => 'int',
+    ];
 
     public function images()
     {

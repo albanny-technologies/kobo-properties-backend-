@@ -171,7 +171,7 @@ class PropertyController extends BaseController // Ensure it extends BaseControl
         $property->city = $validatedData['city'];
         $property->additional_charge = $validatedData['additional_charge'] ?? $property->additional_charge;
         $property->size = $validatedData['size'] ?? $property->size;
-        $property->landmarks = json_encode($validatedData['landmarks'] ?? json_decode($property->landmarks, true));
+        $property->landmarks = $validatedData['landmarks'];
         $property->amenities = json_encode($validatedData['amenities'] ?? json_decode($property->amenities, true));
 
         // Handle main image update
