@@ -71,6 +71,7 @@ class PropertyController extends BaseController // Ensure it extends BaseControl
             'amount' => 'required|numeric',
             'desc' => 'required|string|max:255',
             'city' => 'required|string|max:255',
+            'available_time' => 'nullable',
             'additional_charge' => 'nullable',
             'landmarks' => 'nullable|string',
             'landmarks.*' => 'string|max:255',
@@ -90,6 +91,7 @@ class PropertyController extends BaseController // Ensure it extends BaseControl
         $property->title = $validatedData['title'];
         $property->location = $validatedData['location'];
         $property->amount = $validatedData['amount'];
+        $property->available_time = $validatedData['available_time'];
         $property->desc = $validatedData['desc'];
         $property->state = $validatedData['state'];
         $property->city = $validatedData['city'];
