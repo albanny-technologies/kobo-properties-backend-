@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Notifications\EmailVerification;
 
 class VerificationController extends Controller
 {
@@ -34,5 +35,17 @@ class VerificationController extends Controller
         $user->save();
 
         return response()->json(['message' => 'Email verified successfully']);
+    }
+    public function resendEmail(Request $request)
+    {
+        $validatedData = $request->validate([
+            'email' => 'email|required',
+        ]);
+        $user = auth()->user();
+        $user->notify(new EmailVerification($user));
+        response()->json([
+            'status' => true,
+            'message' => 'Verification code has been resend',
+        ]);
     }
 }

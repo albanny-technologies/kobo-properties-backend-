@@ -54,6 +54,7 @@ Route::middleware('auth:api')->group(function() {
 });
 
 Route::post('/verify-email', [VerificationController::class, 'verifyEmail']);
+Route::post('/resend-code', [VerificationController::class, 'resendEmail']);
 
 
 
