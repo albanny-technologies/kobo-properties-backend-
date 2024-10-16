@@ -50,7 +50,7 @@ class VerificationController extends Controller
         $user->save();
 
         $user->notify(new EmailVerification($user));
-        response()->json([
+        return response()->json([
             'status' => true,
             'message' => 'Verification code has been resend',
         ]);
