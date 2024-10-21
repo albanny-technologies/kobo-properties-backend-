@@ -28,6 +28,7 @@ class RegistrationController extends Controller
         $verificationCode = Str::random(6); // Generate a random 6-digit code
 
         $user = User::create([
+            'name' => $validatedData['firstname']. ' '. $validatedData['lastname'],
             'firstname' => $validatedData['firstname'],
             'lastname' => $validatedData['lastname'],
             'email' => $validatedData['email'],
@@ -38,7 +39,7 @@ class RegistrationController extends Controller
             'verification_code' => $verificationCode,
         ]);
         // Send verification email with code
-        $user->notify(new EmailVerification($user));
+        // $user->notify(new EmailVerification($user));
 
         $token = $user->createToken('auth_token')->plainTextToken;
 

@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Frontend;
+use App\Models\GeneralSettings;
+use App\Models\Payment;
 use App\Models\SubPayment;
 use Illuminate\Http\Request;
 use Laravelcm\Subscriptions\Models\Plan;
@@ -11,22 +14,25 @@ class BasicController extends Controller
     public function index()
     {
         $plans = Plan::with('features')->get();
+        $general = GeneralSettings::first();
+        $frontend = Frontend::first();
+        $payment = Payment::query()->first();
         return response()->json([
             'status' => true,
             'site_info' => [
-                'phone_no' => 2348062765353,
-                'email' => 'info@koboproperties.com',
-                'logo' => 'https://koboproperties.com/logo.png',
-                'footer_logo' => 'https://koboproperties.com/logo.png',
-                'about_us' => 'about us goes here',
-                'terms' => 'terms goes here',
-                'privacy' => 'privacy goes here',
-                'footer_info' => 'footer info goes here',
-                'address' => 'company address',
+                'phone_no' => $general->phone_number,
+                'email' => $general->email,
+                'logo' => 'https://koboproperties.com/'.$general->main_logo,
+                'footer_logo' => 'https://koboproperties.com/'.$general->footer_logo,
+                'about_us' => $frontend->about_us,
+                'terms' => $frontend->terms,
+                'privacy' => $frontend->privacy,
+                'footer_info' => $frontend->footer_info,
+                'address' => $general->address,
                 'socials' => [
-                    'facebook' => 'https://fb.com',
-                    'instagram' => 'https://instagram.com',
-                    'twitter' => 'https://twitter.com'
+                    'facebook' => $frontend->facebook,
+                    'instagram' => $frontend->instagram,
+                    'twitter' => $frontend->twitter
                 ]
             ],
             'counter_no' => [
@@ -35,9 +41,9 @@ class BasicController extends Controller
                 'total_agents' => 239
             ],
             'account_details' => [
-                'account_name' => 'John Doe',
-                'account_no' => 000000000000,
-                'bank_name' => 'First Bank'
+                'account_name' => $payment->acct_name,
+                'account_no' => $payment->acct_no,
+                'bank_name' => $payment->bank_name,
             ],
             'plans' => $plans,
 
