@@ -22,8 +22,8 @@ class BasicController extends Controller
             'site_info' => [
                 'phone_no' => $general->phone_number,
                 'email' => $general->email,
-                'logo' => 'https://koboproperties.com/'.$general->main_logo,
-                'footer_logo' => 'https://koboproperties.com/'.$general->footer_logo,
+                'logo' => 'https://api.koboproperties.com/storage/'.$general->main_logo,
+                'footer_logo' => 'https://api.koboproperties.com/storage/'.$general->footer_logo,
                 'about_us' => $frontend->about_us,
                 'terms' => $frontend->terms,
                 'privacy' => $frontend->privacy,
