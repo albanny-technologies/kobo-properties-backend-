@@ -16,6 +16,9 @@ class BasicController extends Controller
             'site_info' => [
                 'phone_no' => 2348062765353,
                 'email' => 'info@koboproperties.com',
+                'logo' => 'https://koboproperties.com/logo.png',
+                'about_us' => 'about us goes here',
+                'terms' => 'terms goes here',
             ],
             'counter_no' => [
                 'total_bookings' => 393,
@@ -27,7 +30,7 @@ class BasicController extends Controller
                 'account_no' => 000000000000,
                 'bank_name' => 'First Bank'
             ],
-            'plans' => $plans
+            'plans' => $plans,
 
         ]);
     }
