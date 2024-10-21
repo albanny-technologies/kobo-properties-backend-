@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('main_logo')->nullable();
             $table->string('footer_logo')->nullable();
-            $table->integer('phone_number')->nullable();
+            $table->string('phone_number')->nullable();
             $table->string('email')->nullable();
             $table->string('address');
             $table->timestamps();
