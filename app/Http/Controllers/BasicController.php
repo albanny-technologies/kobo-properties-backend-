@@ -19,6 +19,7 @@ class BasicController extends Controller
                 'logo' => 'https://koboproperties.com/logo.png',
                 'about_us' => 'about us goes here',
                 'terms' => 'terms goes here',
+                'privacy' => 'privacy goes here',
                 'footer_info' => 'footer info goes here',
                 'address' => 'company address',
                 'socials' => [
