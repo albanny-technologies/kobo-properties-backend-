@@ -19,6 +19,7 @@ class BasicController extends Controller
                 'logo' => 'https://koboproperties.com/logo.png',
                 'about_us' => 'about us goes here',
                 'terms' => 'terms goes here',
+                'footer_info' => 'footer info goes here'
             ],
             'counter_no' => [
                 'total_bookings' => 393,
