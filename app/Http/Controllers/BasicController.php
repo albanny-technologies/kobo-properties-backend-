@@ -17,6 +17,7 @@ class BasicController extends Controller
                 'phone_no' => 2348062765353,
                 'email' => 'info@koboproperties.com',
                 'logo' => 'https://koboproperties.com/logo.png',
+                'footer_logo' => 'https://koboproperties.com/logo.png',
                 'about_us' => 'about us goes here',
                 'terms' => 'terms goes here',
                 'privacy' => 'privacy goes here',
